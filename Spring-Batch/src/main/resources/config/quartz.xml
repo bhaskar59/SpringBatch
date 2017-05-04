@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+	http://www.springframework.org/schema/batch/spring-batch-2.2.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	">
+	
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+	<property name="triggers">
+	  <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="updateUsers" />
+		<property name="cronExpression" value="*/10 * * * * ?" />
+	  </bean>
+	</property>
+  </bean>
+
+  <bean id="updateUsers" class="org.springframework.scheduling.quartz.JobDetailBean">
+	<property name="jobClass" value="com.mkyong.quartz.JobLauncherDetails" />
+	<property name="group" value="quartz-batch" />
+	<property name="jobDataAsMap">
+	  <map>
+		<entry key="jobName" value="updateUserStatus" />
+		<entry key="jobLocator" value-ref="jobRegistry" />
+		<entry key="jobLauncher" value-ref="jobLauncher" />
+		<entry key="jobExplorer" value-ref="jobExplorer"/>
+	  </map>
+	</property>
+  </bean>
+</beans>

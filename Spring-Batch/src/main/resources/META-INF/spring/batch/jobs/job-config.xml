@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:batch="http://www.springframework.org/schema/batch" 
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/batch
+	http://www.springframework.org/schema/batch/spring-batch-3.0.xsd
+	http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/util
+	http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+	
+	<batch:job id="updateUserStatus">
+	<batch:step id="updateuser">
+	<batch:tasklet ref="updateUserTasklet">
+	</batch:tasklet>
+	</batch:step>
+	</batch:job>
+	
+	<bean id = "updateUserTasklet" class ="com.muni.batch.Tasklet.UpdateUserTasklet">
+	<property name="updateUserService" ref="updateUserService"></property>
+	</bean>
+	
+	<bean id ="updateUserService" class="com.muni.batch.serviceImpl.UpdateUserServiceImpl">
+	<property name="userDao" ref="userDao"></property>
+	</bean>
+	
+	<bean id ="userDao" class="com.muni.batch.daoImpl.UserDaoImpl">
+	<property name="userDao" ref="userDao"></property>
+	</bean>
+</beans>
